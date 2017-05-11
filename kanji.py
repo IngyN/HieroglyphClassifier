@@ -64,7 +64,7 @@ f.close()
 model.load_weights('theweights.hdf5', by_name=True)
 
 # Stochastic Gradient Descent optimizer.
-sgd = SGD(lr=0.001, momentum=0.7, decay=0.0001, nesterov=True)
+sgd = SGD(lr=0.0002, momentum=0.7, decay=0.0001, nesterov=True)
 
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 model.summary()
