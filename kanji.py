@@ -23,10 +23,10 @@ tr_datagen = image.ImageDataGenerator(
     samplewise_std_normalization=False,  # Boolean. Divide each input by its std
     zca_whitening=False,  # Boolean. Apply ZCA whitening
     rotation_range=15,  # Int. Degree range for random rotations
-    width_shift_range=0.15,  # Float. Range for random horizontal shifts
-    height_shift_range=0.15,  # Float. Range for random vertical shifts
-    shear_range=0.25,  # Float. Shear Intensity
-    zoom_range=0.25,  # Float. Range for random zoom
+    width_shift_range=0.12,  # Float. Range for random horizontal shifts
+    height_shift_range=0.12,  # Float. Range for random vertical shifts
+    shear_range=0.2,  # Float. Shear Intensity
+    zoom_range=0.2,  # Float. Range for random zoom
     fill_mode='nearest',  # Points outside the boundaries of the input are filled according to the default nearest state
     horizontal_flip=True,  # Boolean. Randomly flip inputs horizontally
     vertical_flip=False)  # Boolean. Randomly flip inputs vertically
@@ -39,7 +39,14 @@ tr_generator = tr_datagen.flow_from_directory(
     class_mode='categorical')
 
 # validation data generation and preprocessing
-val_datagen = image.ImageDataGenerator(featurewise_center=True, featurewise_std_normalization=True, rescale=None)
+val_datagen = image.ImageDataGenerator(featurewise_center=True, featurewise_std_normalization=True, rescale=None,
+                                       rotation_range=15,
+                                       width_shift_range=0.12,
+                                       height_shift_range=0.12,
+                                       shear_range=0.2,
+                                       zoom_range=0.2,
+                                       fill_mode='nearest',
+                                       horizontal_flip=True)
 # this is a similar generator, for validation data
 val_generator = val_datagen.flow_from_directory(
     './Heiro_val/',
@@ -57,7 +64,7 @@ f.close()
 model.load_weights('theweights.hdf5', by_name=True)
 
 # Stochastic Gradient Descent optimizer.
-sgd = SGD(lr=0.0001, momentum=0.7, decay=0.0001, nesterov=True)
+sgd = SGD(lr=0.001, momentum=0.7, decay=0.0001, nesterov=True)
 
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 model.summary()
@@ -74,7 +81,7 @@ reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4, min_lr
 # Train model
 model.fit_generator(
     tr_generator,
-    samples_per_epoch=800,  # amount of data we want to train on
+    samples_per_epoch=700,  # amount of data we want to train on
     nb_epoch=epoch_count,
     validation_data=val_generator,
     nb_val_samples=200,  # amount of data we want to validate on
