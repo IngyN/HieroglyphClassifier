@@ -74,8 +74,8 @@ reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4, min_lr
 # Train model
 model.fit_generator(
     tr_generator,
-    samples_per_epoch=400,  # amount of data we want to train on
-    nb_epoch=epoch_count,
+    steps_per_epoch=400,  # amount of data we want to train on
+    epochs=epoch_count,
     validation_data=val_generator,
-    nb_val_samples=200,  # amount of data we want to validate on
+    validation_steps=200,  # amount of data we want to validate on
     callbacks=[tb, checkpointer])
