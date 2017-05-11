@@ -5,8 +5,8 @@ import time
 from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau     # Reference: https://keras.io/callbacks/
 from keras.applications import *
 from keras.preprocessing import image
-from keras.models import Model
-from keras.layers import Dense, Dropout, Activation, Flatten, GlobalAveragePooling2D
+from keras.models import Model, Sequential
+from keras.layers import Dense, Dropout, Convolution2D, MaxPooling2D, Activation, Flatten, GlobalAveragePooling2D
 from keras.constraints import maxnorm
 import tensorflow as tf
 import keras.backend.tensorflow_backend as ktf
