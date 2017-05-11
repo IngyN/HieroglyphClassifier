@@ -51,35 +51,6 @@ classes, X_train, Y_train = load_dataset()
 #Labels to categorical 
 Y_train = np_utils.to_categorical(y_train, nb_classes)
 
-
-batch_size = 32
-
-tr_datagen = image.ImageDataGenerator(                
-    rotation_range = 5,
-    width_shift_range = 0.2,
-    height_shift_range = 0.2,
-    shear_range = 0.2,
-    zoom_range = 0.2,
-    horizontal_flip = True,
-    vertical_flip = False)
-
-tr_datagen.fit(X_train)
-
-tr_generator = tr_datagen.flow_from_directory(
-        './Heiroglyphs/',  # this is the target directory
-        target_size=(32,32),
-        batch_size=batch_size,
-        class_mode='categorical')
-
-val_datagen = image.ImageDataGenerator(featurewise_center = False,featurewise_std_normalization = False,rescale = None)
-
-# this is a similar generator, for validation data
-val_generator = val_datagen.flow_from_directory(
-        './validation/',
-        target_size=(32,32),
-        batch_size=batch_size,
-        class_mode='categorical')
-
 ############## Creating Model ################
 
 # initialize the model
@@ -125,19 +96,7 @@ tb = TensorBoard(log_dir='./heiro_logs/'+ current, histogram_freq=0, write_graph
 
 #reduce_lr = ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1, patience = 5, min_lr = 1e-6)
 
-history = model.fit_generator(
-        tr_generator,
-        steps_per_epoch=1500,
-        epochs=epoch_count,
-        validation_data=val_generator,
-        validation_steps=150,
-        callbacks = [tb, checkpointer])
+history = model.fit(X_train, Y_train, batch_size=32, epochs=10, verbose=1, callbacks=[ checkpointer, tb] , validation_split=0.10)
 
-
-
-
-score = model.evaluate_generator(val_generator)
-print('Test score:', score[0])
-print('Test accuracy:', score[1])
 
 
