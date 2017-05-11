@@ -22,9 +22,9 @@ tr_datagen = image.ImageDataGenerator(
     featurewise_std_normalization=True,  # Boolean. Divide inputs by std of the dataset, feature-wise
     samplewise_std_normalization=False,  # Boolean. Divide each input by its std
     zca_whitening=False,  # Boolean. Apply ZCA whitening
-    rotation_range=10,  # Int. Degree range for random rotations
-    width_shift_range=0.10,  # Float. Range for random horizontal shifts
-    height_shift_range=0.10,  # Float. Range for random vertical shifts
+    rotation_range=15,  # Int. Degree range for random rotations
+    width_shift_range=0.15,  # Float. Range for random horizontal shifts
+    height_shift_range=0.15,  # Float. Range for random vertical shifts
     shear_range=0.25,  # Float. Shear Intensity
     zoom_range=0.25,  # Float. Range for random zoom
     fill_mode='nearest',  # Points outside the boundaries of the input are filled according to the default nearest state
@@ -57,7 +57,7 @@ f.close()
 model.load_weights('theweights.hdf5', by_name=True)
 
 # Stochastic Gradient Descent optimizer.
-sgd = SGD(lr=0.001, momentum=0.7, decay=0.0001, nesterov=True)
+sgd = SGD(lr=0.0001, momentum=0.7, decay=0.0001, nesterov=True)
 
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 model.summary()
