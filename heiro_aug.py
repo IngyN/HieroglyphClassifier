@@ -6,7 +6,7 @@ from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau     
 from keras.applications import *
 from keras.preprocessing import image
 from keras.models import Model, Sequential , load_model
-from keras.layers import Dense, Dropout, Activation, Convolution2D, MaxPooling2D, Flatten, GlobalAveragePooling2D
+from keras.layers import Dense, Dropout, Activation, Conv2D, MaxPooling2D, Flatten, GlobalAveragePooling2D
 from keras.constraints import maxnorm
 import tensorflow as tf
 import keras.backend.tensorflow_backend as ktf
