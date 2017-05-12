@@ -63,11 +63,11 @@ l=[None]*40
 for key,value in tr_generator.class_indices.items():
     l[value]=key
 
-f = open('mysub'+current[0:5], 'w')
+f = open('mysub'+current[0:3], 'w')
 
 f.write('Id,Prediction\n')
 
-for i in range(0, 13):
+for i in range(0, 22):
     imgn = 'test_%d' % (i,)
     imgn += '.jpg'
     img_p = './test/' + imgn
@@ -75,7 +75,7 @@ for i in range(0, 13):
     img = img.convert('L')
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
-
+    #print x
     # Predict for test image
     preds = model.predict(x)
 
