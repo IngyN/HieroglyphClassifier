@@ -27,7 +27,7 @@ tr_datagen = image.ImageDataGenerator(
 
 tr_generator = tr_datagen.flow_from_directory(
         './Heiro_train/',  # this is the target directory
-        target_size=(32,32),
+        target_size=(28,28),
         batch_size=batch_size,
         class_mode='categorical',
         color_mode = 'grayscale')
@@ -37,7 +37,7 @@ val_datagen = image.ImageDataGenerator(featurewise_center = False,featurewise_st
 # this is a similar generator, for validation data
 val_generator = val_datagen.flow_from_directory(
         './Heiro_val/',
-        target_size=(32,32),
+        target_size=(28,28),
         batch_size=batch_size,
         class_mode='categorical',
         color_mode = 'grayscale')
