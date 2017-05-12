@@ -65,24 +65,24 @@ model.load_weights('theweights.hdf5', by_name=True)
 model.summary()
 
 # Stochastic Gradient Descent optimizer.
-##sgd = SGD(lr=0.0002, momentum=0.7, decay=0.0001, nesterov=True)
-##
-##model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-##
-### reading current time to differentiate files in logs and submissions.
-##current = time.strftime("%c")
-##
-##checkpointer = ModelCheckpoint(filepath="theweights.hdf5", verbose=1, save_best_only=True, monitor='val_loss')
-##tb = TensorBoard(log_dir='./logsKanji/' + current, histogram_freq=0, write_graph=True, write_images=False)
-##
-### Using reduce Learning rate on plateau to try to prevent saturation and overfitting by reducing the learning rate.
-##reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4, min_lr=1e-6)
-##
-### Train model
-##model.fit_generator(
-##    tr_generator,
-##    samples_per_epoch=700,  # amount of data we want to train on
-##    nb_epoch=epoch_count,
-##    validation_data=val_generator,
-##    nb_val_samples=200,  # amount of data we want to validate on
-##    callbacks=[tb, checkpointer])
+sgd = SGD(lr=0.0002, momentum=0.7, decay=0.0001, nesterov=True)
+
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+# reading current time to differentiate files in logs and submissions.
+current = time.strftime("%c")
+
+checkpointer = ModelCheckpoint(filepath="theweights.hdf5", verbose=1, save_best_only=True, monitor='val_loss')
+tb = TensorBoard(log_dir='./logsKanji/' + current, histogram_freq=0, write_graph=True, write_images=False)
+
+# Using reduce Learning rate on plateau to try to prevent saturation and overfitting by reducing the learning rate.
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=4, min_lr=1e-6)
+
+# Train model
+model.fit_generator(
+    tr_generator,
+    samples_per_epoch=700,  # amount of data we want to train on
+    nb_epoch=epoch_count,
+    validation_data=val_generator,
+    nb_val_samples=200,  # amount of data we want to validate on
+    callbacks=[tb, checkpointer])
