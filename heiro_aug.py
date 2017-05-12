@@ -42,6 +42,11 @@ val_generator = val_datagen.flow_from_directory(
         class_mode='categorical',
         color_mode = 'grayscale')
 
+if K.image_data_format() == 'channels_first':
+    input_shape = (1, 28, 28)
+else:
+    input_shape = (28, 28, 1)
+    
 ############## Creating Model ################
 
 # initialize the model
