@@ -67,13 +67,19 @@ val_generator = val_datagen.flow_from_directory(
 ##model.add(Dense(10))
 ##model.add(Activation("softmax"))
 
-model = load_model("mnist.hdf5")
-
-model.pop()
-
+model = Sequential()
+model.add(Conv2D(32, kernel_size=(3, 3),
+                 activation='relu',
+                 input_shape=input_shape))
+model.add(Conv2D(64, (3, 3), activation='relu'))
+model.add(MaxPooling2D(pool_size=(2, 2)))
+model.add(Dropout(0.25))
+model.add(Flatten())
+model.add(Dense(128, activation='relu'))
+model.add(Dropout(0.5))
 model.add(Dense(40, activation='softmax'))
 
-
+model.load_weights("mnist.hdf5", by_name = True) 
 
 # first: train only the top layers (which were randomly initialized)
 # i.e. freeze all convolutional InceptionV3 layers
