@@ -54,9 +54,9 @@ current = time.strftime("%c")
 model.load_weights('./theweights.hdf5')
 model.compile(loss = 'categorical_crossentropy', optimizer = sgd,  metrics = ['accuracy'])
 
-# copy to my folder to keep track of all weights
-cmd = 'cp theweights.hdf5 theweights/my_weights_'+ current[0:5] +'.hdf5'
-os.system(cmd)
+# # copy to my folder to keep track of all weights
+# cmd = 'cp theweights.hdf5 theweights/my_weights_'+ current[0:5] +'.hdf5'
+# os.system(cmd)
 
 l=[None]*40
 
@@ -67,7 +67,7 @@ f = open('mysub'+current[0:5], 'w')
 
 f.write('Id,Prediction\n')
 
-for i in range(0, 12):
+for i in range(0, 13):
     imgn = 'test_%d' % (i,)
     imgn += '.jpg'
     img_p = './test/' + imgn
