@@ -11,7 +11,7 @@ from keras.constraints import maxnorm
 import tensorflow as tf
 import keras.backend.tensorflow_backend as ktf
 from keras.optimizers import Adam, SGD
-
+from keras import backend as K
 current = time.strftime("%c")
 
 batch_size = 32
@@ -82,14 +82,14 @@ model.add(Dropout(0.25))
 model.add(Flatten())
 model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
-model.add(Dense(40, activation='softmax'))
+model.add(Dense(40, activation='softmax', name = 'new_dense'))
 
 model.load_weights("mnist.hdf5", by_name = True) 
 
 # first: train only the top layers (which were randomly initialized)
 # i.e. freeze all convolutional InceptionV3 layers
-# for layer in base_model.layers:
-#      layer.trainable = False
+#for layer in model.layers[:6]:
+#    layer.trainable = False
 
 sgd = SGD(lr=0.001, momentum=0.6, decay=0.000001, nesterov=True)
 

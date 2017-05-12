@@ -1,17 +1,17 @@
 from __future__ import print_function
 import numpy as np
 np.random.seed(1234)  # for reproducibility
-
+import os 
 from keras.datasets import cifar10
-from keras.models import Sequential, load_model
+from keras.models import Sequential, load_model, model_from_json
 from keras.layers.core import Dense, Activation, Dropout, Flatten
 from keras.optimizers import SGD, Adam
 from keras.utils import np_utils
 from keras.callbacks import EarlyStopping, ModelCheckpoint, TensorBoard, ReduceLROnPlateau
 ##from keras.regularizers.WeightRegularizer import W_regularizer
 from keras.regularizers import l1, l2
-from keras.preprocessing.image import ImageDataGenerator
-
+from keras.preprocessing.image import ImageDataGenerator,img_to_array,  load_img 
+from keras.preprocessing import image
 def load_dataset():
     validation_data_dir = './extra/'
     
@@ -33,7 +33,7 @@ def load_dataset():
             y_val.append(class_indices[subdir])
             
             # Load image as numpy array and append it to X_val
-            img = load_img(os.path.join(subpath, fname), target_size=(img_width, img_height))
+            img = load_img(os.path.join(subpath, fname), target_size=(32, 32))
             x = img_to_array(img)
             X_val.append(x)
             
@@ -52,7 +52,7 @@ testgen = ImageDataGenerator(featurewise_center=True,
 
 test_gen = testgen.flow_from_directory('./extra/',  # this is the target directory
                                         target_size=(28,28),
-                                        batch_size=batch_size,
+                                        batch_size=32,
                                         class_mode='categorical',
                                         color_mode = 'grayscale')##Model##
 
@@ -76,6 +76,8 @@ f = open('testing.csv', 'w')
 f.write('Id,Prediction\n')
 
 for i, (img, target ) in enumerate ( zip ( X, Y )) :
+     img = np.dot(img[...,:3], [0.299, 0.587, 0.114])
+     img = np.expand_dims(img, axis=0)
      y= model.predict(img )
      f.write(img_name + ',' + l[np.argmax(preds)] + '\n')
 
@@ -98,10 +100,12 @@ f.close()
 # print()
 
 
-#score = model.evaluate_generator(test_gen, val_samples = y_test.shape[0] )
-#print('Test score:', score[0])
-#print('Test accuracy:', score[1])
-#
+score = model.evaluate_generator(test_gen, val_samples = 240 )
+print('Test score:', score[0])
+print('Test accuracy:', score[1])
+pred = model.predict_generator(test_gen, 240)
+
+print( pred)
 
 
 
