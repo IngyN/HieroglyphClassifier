@@ -10,6 +10,7 @@ from keras.layers import Dense, Dropout, Activation, Flatten, GlobalAveragePooli
 from keras.optimizers import Adam, SGD
 from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau  # Reference: https://keras.io/callbacks/
 import h5py
+# import PIL
 
 batch_size = 32  # batch size
 epoch_count = 400  # Number of epochs to train
@@ -70,7 +71,8 @@ for i in range(0, 12):
     imgn = 'test_%d' % (i,)
     imgn += '.jpg'
     img_p = './test/' + imgn
-    img = image.load_img(img_p, target_size=(224, 224))
+    img = image.load_img(img_p, target_size=(32, 32))
+    img = img.convert('L')
     x = image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
 
