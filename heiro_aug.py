@@ -84,7 +84,7 @@ model.add(Dense(128, activation='relu'))
 model.add(Dropout(0.5))
 model.add(Dense(40, activation='softmax', name = 'new_dense'))
 
-model.load_weights("mnist.hdf5", by_name = True) 
+##model.load_weights("mnist.hdf5", by_name = True) 
 
 # first: train only the top layers (which were randomly initialized)
 # i.e. freeze all convolutional InceptionV3 layers
@@ -99,7 +99,7 @@ model.summary()
 
 # Training Model
 
-checkpointer = ModelCheckpoint(filepath = "heiro_aug.hdf5", verbose = 1, save_best_only = True, monitor = 'val_loss')   
+checkpointer = ModelCheckpoint(filepath = "heiro_aug_scratch.hdf5", verbose = 1, save_best_only = True, monitor = 'val_loss')   
 tb = TensorBoard(log_dir='./heiro_logs/'+ current, histogram_freq=0, write_graph=True, write_images=False)
 
 #reduce_lr = ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1, patience = 5, min_lr = 1e-6)
