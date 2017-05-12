@@ -5,7 +5,7 @@ import time
 from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau     # Reference: https://keras.io/callbacks/
 from keras.applications import *
 from keras.preprocessing import image
-from keras.models import Model, Sequential 
+from keras.models import Model, Sequential , load_model
 from keras.layers import Dense, Dropout, Activation, Convolution2D, MaxPooling2D, Flatten, GlobalAveragePooling2D
 from keras.constraints import maxnorm
 import tensorflow as tf
@@ -45,29 +45,29 @@ val_generator = val_datagen.flow_from_directory(
 ############## Creating Model ################
 
 # initialize the model
-model = Sequential()
+##model = Sequential()
+##
+### first set of CONV => RELU => POOL
+##model.add(Convolution2D(20, (5, 5), padding="same",
+##        input_shape=(1, 32, 32)))
+##model.add(Activation("relu"))
+##model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+##
+### second set of CONV => RELU => POOL
+##model.add(Convolution2D(50, (5, 5), padding="same"))
+##model.add(Activation("relu"))
+##model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
+##
+### set of FC => RELU layers
+##model.add(Flatten())
+##model.add(Dense(500))
+##model.add(Activation("relu"))
+##
+### softmax classifier
+##model.add(Dense(10))
+##model.add(Activation("softmax"))
 
-# first set of CONV => RELU => POOL
-model.add(Convolution2D(20, (5, 5), padding="same",
-        input_shape=(1, 32, 32)))
-model.add(Activation("relu"))
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-
-# second set of CONV => RELU => POOL
-model.add(Convolution2D(50, (5, 5), padding="same"))
-model.add(Activation("relu"))
-model.add(MaxPooling2D(pool_size=(2, 2), strides=(2, 2)))
-
-# set of FC => RELU layers
-model.add(Flatten())
-model.add(Dense(500))
-model.add(Activation("relu"))
-
-# softmax classifier
-model.add(Dense(10))
-model.add(Activation("softmax"))
-
-model.load_weights("lenet_weights.hdf5")
+model = load_model("mnist.hdf5")
 
 
 
@@ -76,7 +76,7 @@ model.load_weights("lenet_weights.hdf5")
 # for layer in base_model.layers:
 #      layer.trainable = False
 
-sgd = SGD(lr=0.01, momentum=0.6, decay=0.000001, nesterov=True)
+sgd = SGD(lr=0.001, momentum=0.6, decay=0.000001, nesterov=True)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = sgd,  metrics = ['accuracy'])
 model.summary()
@@ -92,7 +92,7 @@ tb = TensorBoard(log_dir='./heiro_logs/'+ current, histogram_freq=0, write_graph
 history = model.fit_generator(
         tr_generator,
         steps_per_epoch=1200,
-        epochs=epoch_count,
+        epochs= 20,
         validation_data=val_generator,
         validation_steps=120,
         callbacks = [tb, checkpointer])
