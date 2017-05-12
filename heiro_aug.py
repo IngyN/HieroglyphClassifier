@@ -69,6 +69,10 @@ val_generator = val_datagen.flow_from_directory(
 
 model = load_model("mnist.hdf5")
 
+model.pop()
+
+model.add(Dense(40, activation='softmax'))
+
 
 
 # first: train only the top layers (which were randomly initialized)
