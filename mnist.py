@@ -11,6 +11,10 @@ from keras.models import Sequential
 from keras.layers import Dense, Dropout, Flatten
 from keras.layers import Conv2D, MaxPooling2D
 from keras import backend as K
+from keras.callbacks import ModelCheckpoint, TensorBoard, ReduceLROnPlateau     # Reference: https://keras.io/callbacks/
+import time
+
+current = time.strftime("%c")
 
 batch_size = 128
 num_classes = 10
@@ -59,11 +63,16 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.Adadelta(),
               metrics=['accuracy'])
 
+
+checkpointer = ModelCheckpoint(filepath = "mnist.hdf5", verbose = 1, save_best_only = True, monitor = 'val_loss')   
+tb = TensorBoard(log_dir='./heiro_logs/'+ current, histogram_freq=0, write_graph=True, write_images=False)
+
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
           verbose=1,
-          validation_data=(x_test, y_test))
+          validation_data=(x_test, y_test),
+          callbacks= [tb, checkpointer])
 score = model.evaluate(x_test, y_test, verbose=0)
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])

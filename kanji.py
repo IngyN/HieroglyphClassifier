@@ -62,12 +62,12 @@ f.close()
 
 # Load weights
 model.load_weights('theweights.hdf5', by_name=True)
+model.summary()
 
 # Stochastic Gradient Descent optimizer.
 sgd = SGD(lr=0.00002, momentum=0.7, decay=0.0001, nesterov=True)
 
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
-model.summary()
 
 # reading current time to differentiate files in logs and submissions.
 current = time.strftime("%c")
