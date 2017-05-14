@@ -36,7 +36,7 @@ tr_generator = tr_datagen.flow_from_directory(
     './Heiro_train/',  # this is where the training data is
     target_size=image_shape,  # all images should be resized to 32x32
     batch_size=batch_size,
-    color_mode='grayscale',
+    color_mode='rgb',
     class_mode='categorical')
 
 # validation data generation and preprocessing
@@ -54,14 +54,14 @@ val_generator = val_datagen.flow_from_directory(
     target_size=image_shape,
     batch_size=batch_size,
     class_mode='categorical',
-    color_mode='grayscale')
+    color_mode='rgb')
 
 # load pre-trained Xception CNN model on imagenet weights
 base_model = Xception(weights='imagenet', pooling = 'avg', include_top=False)
 
-for i in base_model.layers[:140]: # Freezing the first 40 layers
-    i.trainable = False
-    print(i.name)
+#for i in base_model.layers[:140]: # Freezing the first 40 layers
+#    i.trainable = False
+#    print(i.name)
 
 # add a global spatial average pooling layer
 x = base_model.output
@@ -76,7 +76,7 @@ model = Model(input=base_model.input, output=predictions1)
 # model.load_weights('./theweights_xception.hdf5')
 
 # Stochastic Gradient Descent optimizer.
-sgd = SGD(lr=0.001, momentum=0.7, decay=0.0001, nesterov=True)
+sgd = SGD(lr=0.001, momentum=0.7, decay=0.0001, nesterov=False)
 
 model.compile(loss = 'categorical_crossentropy', optimizer = sgd,  metrics = ['accuracy'])
 model.summary()
@@ -94,10 +94,10 @@ reduce_lr = ReduceLROnPlateau(monitor = 'val_loss', factor = 0.1, patience = 4, 
 # Train model
 model.fit_generator(
         tr_generator,
-        steps_per_epoch=1400/batch_size, # amount of data we want to train on
+        steps_per_epoch=1762/batch_size, # amount of data we want to train on
         epochs=epoch_count,
         validation_data=val_generator,
-        validation_steps=200/batch_size, # amount of data we want to validate on
+        validation_steps=400/batch_size, # amount of data we want to validate on
         callbacks = [tb, checkpointer])
 # Train model
 # model.fit_generator(
