@@ -31,7 +31,7 @@ tr_datagen = image.ImageDataGenerator(
     vertical_flip=False)  # Boolean. Randomly flip inputs vertically
 
 tr_generator = tr_datagen.flow_from_directory(
-    './Heiro_train_edited/',  # this is where the training data is
+    './Heiro_train_handwriting/',  # this is where the training data is
     target_size=image_shape,  # all images should be resized to 32x32
     batch_size=batch_size,
     color_mode='grayscale',
@@ -43,7 +43,7 @@ val_datagen = image.ImageDataGenerator(featurewise_center=False, featurewise_std
 
 # this is a similar generator, for validation data
 val_generator = val_datagen.flow_from_directory(
-    './Heiro_val_edited/',
+    './Heiro_val_handwriting/',
     target_size=image_shape,
     batch_size=batch_size,
     class_mode='categorical',
@@ -62,7 +62,7 @@ model.summary()
 #    layer.trainable = False 
 
 # Stochastic Gradient Descent optimizer.
-sgd = SGD(lr=0.001, momentum=0.6, decay=0.00005)
+sgd = SGD(lr=0.01, momentum=0.6, decay=0.00005)
 
 model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
 
