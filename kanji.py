@@ -32,7 +32,7 @@ tr_datagen = image.ImageDataGenerator(
     vertical_flip=False)  # Boolean. Randomly flip inputs vertically
 
 tr_generator = tr_datagen.flow_from_directory(
-    './Heiro_train/',  # this is where the training data is
+    './Heiro_train_old/',  # this is where the training data is
     target_size=image_shape,  # all images should be resized to 32x32
     batch_size=batch_size,
     color_mode='grayscale',
@@ -49,7 +49,7 @@ val_datagen = image.ImageDataGenerator(featurewise_center=True, featurewise_std_
                                        horizontal_flip=True)
 # this is a similar generator, for validation data
 val_generator = val_datagen.flow_from_directory(
-    './Heiro_val/',
+    './Heiro_val_old/',
     target_size=image_shape,
     batch_size=batch_size,
     class_mode='categorical',
@@ -61,8 +61,8 @@ model = model_from_json(f.read())
 f.close()
 
 # Load weights
-model.load_weights('theweights.hdf5', by_name=True)
-model.summary()
+# model.load_weights('theweights.hdf5', by_name=True)
+# model.summary()
 
 # Stochastic Gradient Descent optimizer.
 sgd = SGD(lr=0.00002, momentum=0.7, decay=0.0001, nesterov=True)
@@ -72,7 +72,7 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy
 # reading current time to differentiate files in logs and submissions.
 current = time.strftime("%c")
 
-checkpointer = ModelCheckpoint(filepath="theweights.hdf5", verbose=1, save_best_only=True, monitor='val_loss')
+checkpointer = ModelCheckpoint(filepath="theweightskhara.hdf5", verbose=1, save_best_only=True, monitor='val_loss')
 tb = TensorBoard(log_dir='./logsKanji/' + current, histogram_freq=0, write_graph=True, write_images=False)
 
 # Using reduce Learning rate on plateau to try to prevent saturation and overfitting by reducing the learning rate.
