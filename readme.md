@@ -1,7 +1,8 @@
 **********************************************************
-#Hieroglyph classifier
-**********************************************************
-##Ingy Nazif and Alia Hassan
+
+# Hieroglyph classifier
+## Ingy Nazif and Alia Hassan
+
 **********************************************************
 
 For this project, we trained two classifiers, one for handwritten glyphs (colored/grayscale), and one for handwritten glyphs taken from handwritten Egyptology books (Raymond Faulkner's *Concise Dictionary of Middle Egyptian* and DeBuck's *Egyptian Reading Book*).
@@ -23,4 +24,4 @@ https://drive.google.com/file/d/0B1fGlMcJ9Fa2ZTdDV0ZIUjRPMzA/view?usp=sharing
 https://drive.google.com/file/d/0B1fGlMcJ9Fa2Y3RPYUdtUkNRbTA/view?usp=sharing
 (The model architecture can be loaded from the `augmented_model_architecture.json` file)
 This model was taken from another repository that was used for the Kanji character set:
-  -https://github.com/KyotoSunshine/CNN-for-handwritten-kanji 
+  -https://github.com/KyotoSunshine/CNN-for-handwritten-kanji
